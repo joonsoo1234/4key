@@ -15,4 +15,8 @@ public class DrinkService {
     public List<Drink> getAllDrinks() {
         return drinkRepository.findAll();
     }
+    //해당 type drink 호출
+    public List<Drink> getDrinkByType(String type) {
+        return drinkRepository.findByType(type);
+    }
 }
