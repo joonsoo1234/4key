@@ -27,5 +27,5 @@ public class Drink {
     private String drinkImage;
 
     @Column(name="drink_type")
-    private String drinkType;
+    private String drinkType; //아이스, 핫, 커피, 디카페인, 음료, 티 등등
 }
