@@ -12,11 +12,17 @@ import java.util.List;
 public class DrinkService {
     private final DrinkRepository drinkRepository;
 
+    // 전체 표시
     public List<Drink> getAllDrinks() {
         return drinkRepository.findAll();
     }
     //해당 type drink 호출
     public List<Drink> getDrinkByType(String type) {
         return drinkRepository.findByType(type);
+    }
+
+    //해당 id drink 호출
+    public List<Drink> getDrinkById(int id) {
+        return drinkRepository.findById(id);
     }
 }
