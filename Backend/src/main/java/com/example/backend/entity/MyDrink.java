@@ -31,4 +31,14 @@ public class MyDrink {
     @ManyToOne
     @JoinColumn(name = "drink_id", nullable = false)
     private Drink drink;  // 음료 엔티티와 연결
+
+    public MyDrink toEntity() {
+        return MyDrink.builder()
+                .size(size)
+                .shot(shot)
+                .quantity(quantity)
+                .drink(drink)
+                .totalPrice(totalPrice)
+                .build();
+    }
 }

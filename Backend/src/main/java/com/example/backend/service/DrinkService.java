@@ -18,7 +18,7 @@ public class DrinkService {
     }
     //해당 type drink 호출
     public List<Drink> getDrinkByType(String type) {
-        return drinkRepository.findByType(type);
+        return drinkRepository.findBydrinkType(type);
     }
 
     //해당 id drink 호출
