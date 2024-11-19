@@ -1,0 +1,4 @@
+spring:
+  database:
+    username: root
+    password: qwer123456789  # DB 비밀번호
