@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(name = "4keyTable")
 public class Drink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
