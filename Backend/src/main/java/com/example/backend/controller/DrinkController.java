@@ -31,20 +31,20 @@ public class DrinkController {
         );
     }
 
-    //type에 해당하는 drink 호출
+    //type에 해당하는 drink 호출 {drink_type}
     @GetMapping("/{drink_type}")
     public ResponseEntity<Object> getDrink_type(@PathVariable String drink_type) {
-        List<Drink> drinks = drinkService.getDrinkByType(drink_type);
+        List<Drink> drinks_type = drinkService.getDrinkByType(drink_type);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                drinks
+                drinks_type
         );
     }
 
     //drink 선택 시 상세
-    @GetMapping("/{drink_id}")
-    public ResponseEntity<Object> getDrink_id(@PathVariable int drink_id) {
+    @GetMapping("/choice")
+    public ResponseEntity<Object> getDrink_id(@RequestParam int drink_id) {
         List<Drink> drinks = drinkService.getDrinkById(drink_id);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
@@ -54,14 +54,14 @@ public class DrinkController {
     }
 
     //drink 선택 바구니에 저장
-    @PostMapping("/{drink_id}")
-    public ResponseEntity<Object> addDrinkToCart(@RequestBody int drink_id, @RequestBody char size, @RequestBody int shot, @RequestBody int quantity) {
-//        getDrink_id(drink_id);
-        MyDrink drinks = myDrinkService.addDrinkToCart(drink_id, size, shot, quantity);
+    @PostMapping("/choice/test")
+    public ResponseEntity<Object> addDrinkToCart(@ModelAttribute MyDrink request) {
+
+        MyDrink myDrinks = myDrinkService.addDrinkToCart(request);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                drinks
+                myDrinks
         );
     }
 
