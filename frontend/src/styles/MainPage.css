@@ -1,0 +1,85 @@
+/* 기본 레이아웃 스타일 */
+.main-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+}
+
+/* 네비게이션 바 */
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.navbar-title {
+    margin: 0;
+}
+
+/* 메인 컨텐츠 레이아웃 */
+.main-content {
+    display: flex;
+    flex: 1;
+    padding: 1rem;
+}
+
+/* 메뉴 리스트 */
+.menu-list {
+    text-align: center;
+    flex: 2;
+    background-color: #fff;
+    margin-right: 1rem;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.menu-list h2 {
+    margin-top: 0;
+}
+
+.menu-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-list li {
+    margin: 0.5rem 0;
+}
+
+/* 바구니 */
+.basket {
+    flex: 1;
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.basket h2 {
+    margin-top: 0;
+}
+
+.checkout-button {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkout-button:hover {
+    background-color: #555;
+}
+
+/* 푸터 */
+.footer {
+    text-align: center;
+    padding: 0.1rem;
+    background-color: #333;
+    color: white;
+}
