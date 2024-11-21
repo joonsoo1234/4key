@@ -6,9 +6,13 @@ const MainPage: React.FC = () => {
     return (
         <div className="main-page">
             {/* 상단 네비게이션 바 */}
-            <nav className="navbar">
-                <h1 className="navbar-title">Cafe Kiosk</h1>
-            </nav>
+            <header>
+                <nav className="navbar">
+                    <button className="home-button">home</button>
+                    <h1 className="navbar-title">Cafe Kiosk</h1>
+                    <button className="menu-button">menu</button>
+                </nav>
+            </header>
 
             {/* 메뉴와 바구니 섹션을 포함하는 메인 컨텐츠 */}
             <main className="main-content">
