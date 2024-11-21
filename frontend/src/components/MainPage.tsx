@@ -1,48 +1,39 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/MainPage.css';
 
-// 메인 페이지 컴포넌트
-const MainPage: React.FC = () => {
+const MainPage = () => {
+    const navigate = useNavigate();
+
     return (
-        <div className="main-page">
-            {/* 상단 네비게이션 바 */}
-            <header>
-                <nav className="navbar">
-                    <button className="home-button">home</button>
-                    <h1 className="navbar-title">Cafe Kiosk</h1>
-                    <button className="menu-tab">menu</button>
-                </nav>
-            </header>
+        <div className="selection-page">
+            <h1 className="selection-title">키오스크 선택</h1>
 
-            {/* 메뉴와 바구니 섹션을 포함하는 메인 컨텐츠 */}
-            <main className="main-content">
-                {/* 메뉴 리스트 */}
-                <section className="menu-list">
-                    <h2>Menu</h2>
-                    <ul>
-                        <li>Americano</li>
-                        <li>Latte</li>
-                        <li>Espresso</li>
-                        {/* 더 많은 메뉴 추가 */}
-                    </ul>
-                </section>
+            <div className="selection-buttons">
+                <button
+                    className="selection-button cafe"
+                    onClick={() => navigate('/cafe')}
+                >
+                    <span className="icon">☕</span>
+                    <span className="text">카페</span>
+                </button>
 
-                {/* 바구니 */}
-                <aside className="basket">
-                    <h2>Your Basket</h2>
-                    <ul>
-                        <li>Latte x 1</li>
-                        <li>Espresso x 2</li>
-                        {/* 선택된 메뉴 표시 */}
-                    </ul>
-                    <button className="checkout-button">Checkout</button>
-                </aside>
-            </main>
+                <button
+                    className="selection-button bakery"
+                    onClick={() => navigate('/bakery')}
+                >
+                    <span className="icon">🥨</span>
+                    <span className="text">빵집</span>
+                </button>
 
-            {/* 하단 푸터 */}
-            <footer className="footer">
-                <p>&copy; 2024 Cafe Kiosk</p>
-            </footer>
+                <button
+                    className="selection-button cinema"
+                    onClick={() => navigate('/cinema')}
+                >
+                    <span className="icon">🎬</span>
+                    <span className="text">영화관</span>
+                </button>
+            </div>
         </div>
     );
 };
