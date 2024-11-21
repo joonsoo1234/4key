@@ -10,7 +10,7 @@ const MainPage: React.FC = () => {
                 <nav className="navbar">
                     <button className="home-button">home</button>
                     <h1 className="navbar-title">Cafe Kiosk</h1>
-                    <button className="menu-button">menu</button>
+                    <button className="menu-tab">menu</button>
                 </nav>
             </header>
 
