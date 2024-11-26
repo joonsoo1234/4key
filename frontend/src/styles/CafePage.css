@@ -1,98 +1,145 @@
 /* 기본 레이아웃 스타일 */
 .main-page {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
+    background-color: #f5f5f5;
 }
 
-/* 네비게이션 바 */
-.navbar {
-    display: flex; /* 플렉스 컨테이너로 변경 */
-    align-items: center; /* 세로 중앙 정렬 */
-    justify-content: space-between; /* 버튼과 타이틀 양 끝 배치 */
-    background-color: #333;
-    color: #f8f8f8;
-    padding: 1rem;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.home-button, .menu-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    color: white;
+.logo {
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s;
-    border-radius: 4px;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-.home-button:hover, .menu-button:hover {
-    background-color: #555;
-}
-
-.navbar-title {
-    margin: 0;
+.home-icon, .menu-icon {
+    font-size: 1.8rem;
+    color: #333;
+    cursor: pointer;
 }
 
 /* 메인 컨텐츠 레이아웃 */
 .main-content {
+    flex: 1;
     display: flex;
-    flex: 1;
+    flex-direction: column;
     padding: 1rem;
+    gap: 1rem;
 }
 
-/* 메뉴 리스트 */
-.menu-list {
-    text-align: center;
-    flex: 2;
-    background-color: #fff;
-    margin-right: 1rem;
-    padding: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.menu-categories {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #ffffff;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.menu-list h2 {
-    margin-top: 0;
+.category-button {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    background-color: #f0f0f0;
+    color: #666;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.menu-list ul {
-    list-style: none;
-    padding: 0;
+.category-button.active {
+    background-color: #2196F3;
+    color: white;
 }
 
-.menu-list li {
-    margin: 0.5rem 0;
-}
-
-/* 바구니 */
-.basket {
-    flex: 1;
-    background-color: #fff;
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
     padding: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
 
-.basket h2 {
-    margin-top: 0;
+.menu-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.menu-item:hover {
+    transform: translateY(-2px);
+}
+
+.menu-image {
+    height: 150px;
+    background-color: #e0e0e0;
+}
+
+.menu-info {
+    padding: 1rem;
+}
+
+.menu-info h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.menu-info p {
+    margin: 0.5rem 0 0;
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.order-summary {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+    font-weight: bold;
+}
+
+.total-price {
+    color: #2196F3;
+    font-size: 1.2rem;
 }
 
 .checkout-button {
-    background-color: #333;
+    width: 100%;
+    padding: 1rem;
+    background-color: #2196F3;
     color: white;
-    padding: 0.5rem 1rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .checkout-button:hover {
-    background-color: #555;
+    background-color: #1976D2;
 }
 
 /* 푸터 */
