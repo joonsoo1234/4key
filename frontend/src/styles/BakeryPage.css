@@ -1,8 +1,8 @@
 @import './common.css';
 
-.cafe-page {
-    --brand-primary: #2196F3;
-    --brand-primary-dark: #1976D2;
+.bakery-page {
+    --brand-primary: #e31837;
+    --brand-primary-dark: #c41530;
 }
 
 .category-button.active {
@@ -20,4 +20,4 @@
 
 .menu-info p, .total-price {
     color: var(--brand-primary);
-}
+} 

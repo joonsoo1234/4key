@@ -41,7 +41,7 @@ const CafePage = () => {
     };
 
     return (
-        <div className="main-page">
+        <div className="main-page cafe-page">
             <main className="main-content">
                 <nav className="menu-categories">
                     {Object.keys(menuCategories).map((category) => (
