@@ -11,7 +11,7 @@ function Navbar() {
                 <Link to="/" className="home-button">
                     <AiFillHome size={24} />
                 </Link>
-                <h1 className="navbar-title">Cafe Kiosk</h1>
+                <h1 className="navbar-title">Kiosk</h1>
                 <Link to="/menu" className="menu-button">
                     <RiMenuFill size={24} />
                 </Link>
