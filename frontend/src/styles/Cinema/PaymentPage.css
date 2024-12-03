@@ -1,0 +1,23 @@
+.payment-page {
+    text-align: center;
+    padding: 2rem;
+}
+
+.payment-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.payment-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: #e3e3ff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.payment-button:hover {
+    background-color: #d1d1ff;
+}

@@ -5,6 +5,12 @@ import CafePage from './components/CafePage';
 import BakeryPage from "./components/BakeryPage";
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import CinemaPage from './components/Cinema/CinemaPage';
+import MovieListPage from './components/Cinema/MovieListPage';
+import SeatSelectionPage from './components/Cinema/SeatSelectionPage';
+import PaymentPage from './components/Cinema/PaymentPage';
+import BookingHistoryPage from './components/Cinema/BookingHistoryPage';
+
 
 function App() {
     return (
@@ -16,7 +22,11 @@ function App() {
                         <Route path="/" element={<MainPage />} />
                         <Route path="/cafe" element={<CafePage />} />
                         <Route path="/bakery" element={<BakeryPage />} />
-                        <Route path="/cinema" element={<div>영화관 페이지 - 준비중</div>} />
+                        <Route path="/cinema" element={<CinemaPage />} />
+                        <Route path="/movies" element={<MovieListPage />} />
+                        <Route path="/seat-selection" element={<SeatSelectionPage />} />
+                        <Route path="/payment" element={<PaymentPage />} />
+                        <Route path="/booking-history" element={<BookingHistoryPage />} />
                     </Routes>
                 </main>
                 <Footer />
