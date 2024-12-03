@@ -29,15 +29,15 @@ public class MyDrink {
     private double totalPrice;  // 총 가격
 
     @ManyToOne
-    @JoinColumn(name = "drink_id", nullable = false)
-    private Drink drink;  // 음료 엔티티와 연결
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;  // 아이템 엔티티와 연결
 
     public MyDrink toEntity() {
         return MyDrink.builder()
                 .size(size)
                 .shot(shot)
                 .quantity(quantity)
-                .drink(drink)
+                .item(item)
                 .totalPrice(totalPrice)
                 .build();
     }
