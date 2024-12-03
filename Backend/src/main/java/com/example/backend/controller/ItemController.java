@@ -1,8 +1,8 @@
 package com.example.backend.controller;
 
-import com.example.backend.entity.Drink;
+import com.example.backend.entity.Item;
 import com.example.backend.entity.MyDrink;
-import com.example.backend.service.DrinkService;
+import com.example.backend.service.ItemService;
 import com.example.backend.service.MyDrinkService;
 import com.example.backend.utils.ResponseHandler;
 import lombok.RequiredArgsConstructor;
@@ -15,26 +15,26 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/drinks")
-public class DrinkController {
-    private final DrinkService drinkService;
+@RequestMapping("/api/items")
+public class ItemController {
+    private final ItemService itemService;
     private final MyDrinkService myDrinkService;
 
-    //모든 drink 호출
+    //모든 item 호출
     @GetMapping()
-    public ResponseEntity<Object> getDrinks() {
-        List<Drink> drinks = drinkService.getAllDrinks();
+    public ResponseEntity<Object> getItems() {
+        List<Item> items = itemService.getAllItems();
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                drinks
+                items
         );
     }
 
-    //type에 해당하는 drink 호출 {drink_type}
-    @GetMapping("/{drink_type}")
-    public ResponseEntity<Object> getDrink_type(@PathVariable String drink_type) {
-        List<Drink> drinks_type = drinkService.getDrinkByType(drink_type);
+    //type에 해당하는 item 호출 {item_type}
+    @GetMapping("/{item_type}")
+    public ResponseEntity<Object> getItem_type(@PathVariable String item_type) {
+        List<Item> drinks_type = itemService.getItemByType(item_type);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
@@ -42,14 +42,14 @@ public class DrinkController {
         );
     }
 
-    //drink 선택 시 상세
+    //item 선택 시 상세
     @GetMapping("/choice")
-    public ResponseEntity<Object> getDrink_id(@RequestParam int drink_id) {
-        List<Drink> drinks = drinkService.getDrinkById(drink_id);
+    public ResponseEntity<Object> getItem_id(@RequestParam int item_id) {
+        List<Item> items = itemService.getItemById(item_id);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                drinks
+                items
         );
     }
 
