@@ -213,10 +213,12 @@ const CafePage = () => {
                             </button>
                         </div>
                         <ul>
-                            {cartItems.map((cartItem) => (
+                            {cartItems.map((cartItem) => 
                                 <li key={cartItem.id} className="cart-item">
                                     <div className="cart-item-info">
-                                        {cartItem.item.name} ({cartItem.size}, 샷 {cartItem.shot})
+                                        {cartItem.item.name} x {cartItem.quantity}
+                                        {cartItem.size !== 'N' && ` (${cartItem.size})`}
+                                        {cartItem.shot > 0 && `, 샷 ${cartItem.shot}`}
                                     </div>
                                     <div className="cart-item-controls">
                                         <button
