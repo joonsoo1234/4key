@@ -1,9 +1,9 @@
 package com.example.backend.controller;
 
 import com.example.backend.entity.Item;
-import com.example.backend.entity.MyDrink;
+import com.example.backend.entity.MyCart;
 import com.example.backend.service.ItemService;
-import com.example.backend.service.MyDrinkService;
+import com.example.backend.service.MyCartService;
 import com.example.backend.utils.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api/items")
 public class ItemController {
     private final ItemService itemService;
-    private final MyDrinkService myDrinkService;
+    private final MyCartService myCartService;
 
     //모든 item 호출
     @GetMapping()
@@ -53,16 +53,39 @@ public class ItemController {
         );
     }
 
-    //drink 선택 바구니에 저장
+    //item 선택 바구니에 저장
     @PostMapping("/choice/test")
-    public ResponseEntity<Object> addDrinkToCart(@ModelAttribute MyDrink request) {
-
-        MyDrink myDrinks = myDrinkService.addDrinkToCart(request);
+    public ResponseEntity<Object> addDrinkToCart(@RequestBody MyCart request) {
+        System.out.println(request.toString());
+        MyCart myDrinks = myCartService.addDrinkToCart(request);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
                 myDrinks
         );
+    }
+
+    // 끝나면 장바구니 초기화
+    @PostMapping("/clear")
+    public ResponseEntity<Object> clearCart() {
+        try {
+            // 장바구니 초기화
+            myCartService.clearCart();
+
+            // 초기화 성공 응답
+            return ResponseHandler.responseBuilder(
+                    HttpStatus.OK,
+                    "장바구니가 성공적으로 초기화되었습니다.",
+                    null
+            );
+        } catch (Exception e) {
+            // 오류 처리
+            return ResponseHandler.responseBuilder(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "장바구니 초기화 중 오류가 발생했습니다.",
+                    null
+            );
+        }
     }
 
 }
