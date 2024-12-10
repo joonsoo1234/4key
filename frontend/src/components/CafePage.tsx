@@ -24,6 +24,7 @@ const CafePage = () => {
     const [selectedCategory, setSelectedCategory] = useState('시즌메뉴');
     const [menuItems, setMenuItems] = useState<CafeItem[]>([]);
     const [popupItem, setPopupItem] = useState<CafeItem | null>(null);
+    const [cartItems, setCartItems] = useState<MyCart[]>([]);
 
     const categoryMapping: { [key: string]: string } = {
         '시즌메뉴': '시즌메뉴',
@@ -53,6 +54,23 @@ const CafePage = () => {
 
         fetchMenuItems();
     }, [selectedCategory]);
+
+    useEffect(() => {
+        const fetchCartItems = async () => {
+            try {
+                const response = await fetch('/api/cart');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch cart items');
+                }
+                const data = await response.json();
+                setCartItems(data);
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
+        };
+
+        fetchCartItems();
+    }, []);
 
     const menuCategories: MenuCategories = {
         시즌메뉴: [
@@ -124,8 +142,11 @@ const CafePage = () => {
                     <div className="basket">
                         <h2>주문 내역</h2>
                         <ul>
-                            <li>카페라떼 x 1</li>
-                            <li>에스프레소 x 2</li>
+                            {cartItems.map((cartItem) => (
+                                <li key={cartItem.id}>
+                                    {cartItem.item.name} x {cartItem.quantity} ({cartItem.size}, 샷 {cartItem.shot})
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     <div className="total">
