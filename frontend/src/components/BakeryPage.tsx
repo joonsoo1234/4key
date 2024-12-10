@@ -1,21 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/common.css';
 import '../styles/BakeryPage.css';
 
 interface BakeryItem {
+    item_id: number;
     name: string;
     price: number;
-    description?: string;
+    itemImage: string;
+    type: string;
 }
 
-interface BakeryCategories {
+interface MenuCategories {
     [key: string]: BakeryItem[];
 }
 
 const BakeryPage = () => {
     const [selectedCategory, setSelectedCategory] = useState('브레드');
+    const [menuItems, setMenuItems] = useState<BakeryItem[]>([]);
 
-    const bakeryCategories: BakeryCategories = {
+    const categoryMapping: { [key: string]: string } = {
+        '브레드': '브레드',
+        '케이크': '케이크',
+        '샌드위치/샐러드': '샌드위치-샐러드',
+        '디저트/스낵': '디저트-스낵'
+    };
+
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            try {
+                const mappedCategory = categoryMapping[selectedCategory];
+                const response = await fetch(`/api/items/${mappedCategory}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('받아온 데이터:', data); // 디버깅용
+                if (data.data) {
+                    setMenuItems(data.data);
+                }
+            } catch (error) {
+                console.error('메뉴 데이터 로딩 실패:', error);
+                console.error('에러 상세:', error.message); // 더 자세한 에러 정보
+            }
+        };
+
+        fetchMenuItems();
+    }, [selectedCategory]);
+
+    const bakeryCategories: MenuCategories = {
         브레드: [
             { name: '발효버터 소금빵', price: 3500 },
             { name: '부드럽고 촉촉한 굿모닝롤', price: 4000 },
@@ -69,9 +101,11 @@ const BakeryPage = () => {
                 <section className="menu-list">
                     <h2>{selectedCategory}</h2>
                     <div className="menu-grid">
-                        {bakeryCategories[selectedCategory].map((item) => (
-                            <div key={item.name} className="menu-item">
-                                <div className="menu-image"></div>
+                        {menuItems.map((item) => (
+                            <div key={item.item_id} className="menu-item">
+                                <div className="menu-image">
+                                    <img src={item.itemImage} alt={item.name} />
+                                </div>
                                 <div className="menu-info">
                                     <h3>{item.name}</h3>
                                     <p>₩{item.price.toLocaleString()}</p>
