@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import '../styles/CafePage.css';
 
 // 메뉴 아이템 인터페이스 수정
-interface MenuItem {
+interface CafeItem {
     item_id: number;
     name: string;
     price: number;
@@ -14,13 +14,13 @@ interface MenuItem {
 
 // 메뉴 카테고리 인터페이스 정의
 interface MenuCategories {
-    [key: string]: MenuItem[];
+    [key: string]: CafeItem[];
 }
 
 // 메인 페이지 컴포넌트
 const CafePage = () => {
     const [selectedCategory, setSelectedCategory] = useState('시즌메뉴');
-    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+    const [menuItems, setMenuItems] = useState<CafeItem[]>([]);
 
     const categoryMapping: { [key: string]: string } = {
         '시즌메뉴': '시즌메뉴',
