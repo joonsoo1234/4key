@@ -8,7 +8,7 @@ interface MenuItem {
     item_id: number;
     name: string;
     price: number;
-    image_url: string;
+    itemImage: string;
     type: string;
 }
 
@@ -23,9 +23,9 @@ const CafePage = () => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
     const categoryMapping: { [key: string]: string } = {
-        '시즌메뉴': 'SEASON',
-        '커피(HOT)': 'HOT',
-        '커피(ICE)': 'ICE'
+        '시즌메뉴': '시즌메뉴',
+        '커피(HOT)': '커피(HOT)',
+        '커피(ICE)': '커피(ICE)'
     };
 
     // API에서 메뉴 데이터 가져오기
@@ -93,7 +93,7 @@ const CafePage = () => {
                         {menuItems.map((item) => (
                             <div key={item.item_id} className="menu-item">
                                 <div className="menu-image">
-                                    <img src={item.image_url} alt={item.name} />
+                                    <img src={item.itemImage} alt={item.name} />
                                 </div>
                                 <div className="menu-info">
                                     <h3>{item.name}</h3>
