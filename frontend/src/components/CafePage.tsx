@@ -23,7 +23,7 @@ const CafePage = () => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
     const categoryMapping: { [key: string]: string } = {
-        '시즌메뉴': 'SEASON',
+        '시즌메뉴': '시즌메뉴',
         '커피(HOT)': 'HOT',
         '커피(ICE)': 'ICE'
     };

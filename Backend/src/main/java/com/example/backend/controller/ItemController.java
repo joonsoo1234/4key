@@ -34,11 +34,11 @@ public class ItemController {
     //type에 해당하는 item 호출 {item_type}
     @GetMapping("/{item_type}")
     public ResponseEntity<Object> getItem_type(@PathVariable String item_type) {
-        List<Item> drinks_type = itemService.getItemByType(item_type);
+        List<Item> items_type = itemService.getItemByType(item_type);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                drinks_type
+                items_type
         );
     }
 
@@ -54,14 +54,25 @@ public class ItemController {
     }
 
     //item 선택 바구니에 저장
-    @PostMapping("/choice/test")
+    @PostMapping("/choice/save")
     public ResponseEntity<Object> addDrinkToCart(@RequestBody MyCart request) {
         System.out.println(request.toString());
-        MyCart myDrinks = myCartService.addDrinkToCart(request);
+        MyCart choice_cart = myCartService.addDrinkToCart(request);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,
-                myDrinks
+                choice_cart
+        );
+    }
+
+    // MyCart 호출
+    @GetMapping("/mycart")
+    public ResponseEntity<Object> getMyCart() {
+        List<MyCart> myCart = myCartService.getMyCart();
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                myCart
         );
     }
 
@@ -70,7 +81,7 @@ public class ItemController {
     public ResponseEntity<Object> clearCart() {
         try {
             // 장바구니 초기화
-            myCartService.clearCart();
+            myCartService.clearMyCart();
 
             // 초기화 성공 응답
             return ResponseHandler.responseBuilder(
