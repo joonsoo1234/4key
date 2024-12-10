@@ -10,7 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MyDrink {
+@ToString
+public class MyCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "my_id", updatable = false)
@@ -25,20 +26,20 @@ public class MyDrink {
     @Column(name = "quantity", nullable = false)
     private int quantity = 1;  // 수량
 
-    @Column(name = "total_price", nullable = false)
-    private double totalPrice;  // 총 가격
+//    @Column(name = "total_price", nullable = false)
+//    private double totalPrice;  // 총 가격
 
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;  // 아이템 엔티티와 연결
 
-    public MyDrink toEntity() {
-        return MyDrink.builder()
+    public MyCart toEntity() {
+        return MyCart.builder()
                 .size(size)
                 .shot(shot)
                 .quantity(quantity)
                 .item(item)
-                .totalPrice(totalPrice)
+//                .totalPrice(totalPrice)
                 .build();
     }
 }
