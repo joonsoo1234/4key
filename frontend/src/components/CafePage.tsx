@@ -8,7 +8,7 @@ interface MenuItem {
     item_id: number;
     name: string;
     price: number;
-    image_url: string;
+    itemImage: string;
     type: string;
 }
 
@@ -23,7 +23,7 @@ const CafePage = () => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
     const categoryMapping: { [key: string]: string } = {
-        '시즌메뉴': '시즌메뉴',
+        '시즌메뉴': 'SEASON',
         '커피(HOT)': 'HOT',
         '커피(ICE)': 'ICE'
     };
