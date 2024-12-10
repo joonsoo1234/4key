@@ -21,3 +21,10 @@
 .menu-info p, .total-price {
     color: var(--brand-primary);
 }
+
+.menu-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
