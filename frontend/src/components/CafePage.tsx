@@ -213,7 +213,7 @@ const CafePage = () => {
                             </button>
                         </div>
                         <ul>
-                            {cartItems.map((cartItem) => 
+                            {cartItems.map((cartItem) => (
                                 <li key={cartItem.id} className="cart-item">
                                     <div className="cart-item-info">
                                         {cartItem.item.name} x {cartItem.quantity}
