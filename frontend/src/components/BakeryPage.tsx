@@ -14,6 +14,8 @@ interface MyCart {
     id: number;
     item: BakeryItem;
     quantity: number;
+    shot: number;
+    size: string;
 }
 
 const BakeryPage = () => {
@@ -121,7 +123,10 @@ const BakeryPage = () => {
 
     const calculateTotalPrice = () => {
         return cartItems.reduce((total, item) => {
-            return total + (item.item.price * item.quantity);
+            const basePrice = item.item.price;
+            const shotPrice = item.shot * 500;
+            const sizePrice = item.size === 'M' ? 700 : item.size === 'L' ? 1400 : 0;
+            return total + ((basePrice + shotPrice + sizePrice) * item.quantity);
         }, 0);
     };
 
