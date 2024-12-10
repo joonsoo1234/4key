@@ -27,11 +27,11 @@ const CupLargeIcon = () => (
 
 const CartIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6zM3 6h18M16 10a4 4 0 01-8 0" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"/>
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6zM3 6h18M16 10a4 4 0 01-8 0"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"/>
     </svg>
 );
 
@@ -67,9 +67,32 @@ const MenuPopup: React.FC<MenuPopupProps> = ({ item, onClose, onAddToCart }) => 
         return price > 0 ? ` (+${price.toLocaleString()}원)` : '';
     };
 
-    const handleAddToCart = () => {
-        onAddToCart(item, size, shot, quantity);
-        onClose();
+    const handleAddToCart = async () => {
+        const cartItem = {
+            item_id: item.item_id,
+            size,
+            shot,
+            quantity
+        };
+
+        try {
+            const response = await fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(cartItem),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add item to cart');
+            }
+
+            onAddToCart(item, size, shot, quantity);
+            onClose();
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+        }
     };
 
     const increaseQuantity = () => {
@@ -112,21 +135,21 @@ const MenuPopup: React.FC<MenuPopupProps> = ({ item, onClose, onAddToCart }) => 
                 <div className="option-group">
                     <label>사이즈 선택</label>
                     <div className="size-buttons">
-                        <button 
+                        <button
                             className={`size-button ${size === 'S' ? 'active' : ''}`}
                             onClick={() => setSize('S')}
                         >
                             <CupSmallIcon />
                             <span>Small</span>
                         </button>
-                        <button 
+                        <button
                             className={`size-button ${size === 'M' ? 'active' : ''}`}
                             onClick={() => setSize('M')}
                         >
                             <CupMediumIcon />
                             <span>Medium{getSizeAddedPrice('M')}</span>
                         </button>
-                        <button 
+                        <button
                             className={`size-button ${size === 'L' ? 'active' : ''}`}
                             onClick={() => setSize('L')}
                         >
