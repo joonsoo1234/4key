@@ -19,6 +19,15 @@ interface MenuCategories {
     [key: string]: CafeItem[];
 }
 
+// MyCart 인터페이스 추가
+interface MyCart {
+    id: number;
+    item: CafeItem;
+    size: string;
+    shot: number;
+    quantity: number;
+}
+
 // 메인 페이지 컴포넌트
 const CafePage = () => {
     const [selectedCategory, setSelectedCategory] = useState('시즌메뉴');
@@ -55,43 +64,23 @@ const CafePage = () => {
         fetchMenuItems();
     }, [selectedCategory]);
 
+    // 장바구니 데이터 불러오기
     useEffect(() => {
         const fetchCartItems = async () => {
             try {
-                const response = await fetch('/api/cart');
+                const response = await fetch('/api/items/mycart');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch cart items');
+                    throw new Error('장바구니 데이터를 불러오는데 실패했습니다');
                 }
                 const data = await response.json();
-                setCartItems(data);
+                setCartItems(data.data);
             } catch (error) {
-                console.error('Error fetching cart items:', error);
+                console.error('장바구니 데이터 로딩 실패:', error);
             }
         };
 
         fetchCartItems();
     }, []);
-
-    const menuCategories: MenuCategories = {
-        시즌메뉴: [
-            { name: '달고나 라떼', price: 5500 },
-            { name: '흑임자 프라페', price: 6000 },
-            { name: '자몽에이드', price: 5000 },
-            { name: '망고스무디', price: 5500 },
-        ],
-        '커피(HOT)': [
-            { name: '아메리카노', price: 4000 },
-            { name: '카페라떼', price: 4500 },
-            { name: '에스프레소', price: 3500 },
-            { name: '카푸치노', price: 4500 },
-        ],
-        '커피(ICE)': [
-            { name: '아이스 아메리카노', price: 4000 },
-            { name: '아이스 카페라떼', price: 4500 },
-            { name: '콜드브루', price: 5000 },
-            { name: '바닐라라떼', price: 5000 },
-        ],
-    };
 
     const handleItemClick = (item: CafeItem) => {
         setPopupItem(item);
@@ -101,16 +90,59 @@ const CafePage = () => {
         setPopupItem(null);
     };
 
-    const handleAddToCart = (item: CafeItem, size: string, shot: number, quantity: number) => {
-        // 장바구니에 추가하는 로직 구현
-        console.log('장바구니에 추가:', item, size, shot, quantity);
+    const handleAddToCart = async (item: CafeItem, size: string, shot: number, quantity: number) => {
+        try {
+            // 장바구니 데이터 다시 불러오기
+            const response = await fetch('/api/items/mycart');
+            if (!response.ok) {
+                throw new Error('장바구니 데이터를 불러오는데 실패했습니다');
+            }
+            const data = await response.json();
+            setCartItems(data.data);
+        } catch (error) {
+            console.error('장바구니 데이터 로딩 실패:', error);
+        }
+    };
+
+    // 총 주문금액 계산 함수 추가
+    const calculateTotalPrice = () => {
+        return cartItems.reduce((total, item) => {
+            const basePrice = item.item.price;
+            const shotPrice = item.shot * 500;
+            const sizePrice = item.size === 'M' ? 700 : item.size === 'L' ? 1400 : 0;
+            return total + ((basePrice + shotPrice + sizePrice) * item.quantity);
+        }, 0);
+    };
+
+    // 장바구니 비우기 함수 수정
+    const handleClearCart = async () => {
+        // 확인 창 표시
+        const isConfirmed = window.confirm('장바구니를 모두 비우시겠습니까?');
+        
+        if (!isConfirmed) {
+            return; // 사용자가 취소를 선택한 경우
+        }
+
+        try {
+            const response = await fetch('/api/items/clear', {
+                method: 'POST',
+            });
+            
+            if (!response.ok) {
+                throw new Error('장바구니 비우기 실패');
+            }
+            
+            setCartItems([]);
+        } catch (error) {
+            console.error('장바구니 비우기 실패:', error);
+        }
     };
 
     return (
         <div className="main-page cafe-page">
             <main className="main-content">
                 <nav className="menu-categories">
-                    {Object.keys(menuCategories).map((category) => (
+                    {Object.keys(categoryMapping).map((category) => (
                         <button
                             key={category}
                             className={`category-button ${selectedCategory === category ? 'active' : ''}`}
@@ -140,7 +172,15 @@ const CafePage = () => {
 
                 <footer className="order-summary">
                     <div className="basket">
-                        <h2>주문 내역</h2>
+                        <div className="basket-header">
+                            <h2>주문 내역</h2>
+                            <button 
+                                className="clear-cart-btn" 
+                                onClick={handleClearCart}
+                            >
+                                장바구니 비우기
+                            </button>
+                        </div>
                         <ul>
                             {cartItems.map((cartItem) => (
                                 <li key={cartItem.id}>
@@ -151,7 +191,7 @@ const CafePage = () => {
                     </div>
                     <div className="total">
                         <span>총 주문금액</span>
-                        <span className="total-price">₩12,500</span>
+                        <span className="total-price">₩{calculateTotalPrice().toLocaleString()}</span>
                     </div>
                     <button className="checkout-button">결제하기</button>
                 </footer>

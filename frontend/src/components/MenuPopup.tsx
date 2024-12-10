@@ -68,15 +68,21 @@ const MenuPopup: React.FC<MenuPopupProps> = ({ item, onClose, onAddToCart }) => 
     };
 
     const handleAddToCart = async () => {
+        console.log('전송할 아이템:', item);
+
         const cartItem = {
-            item_id: item.item_id,
-            size,
-            shot,
-            quantity
+            item: {
+                id: item.id
+            },
+            size: size,
+            shot: shot,
+            quantity: quantity
         };
 
+        console.log('전송할 데이터:', cartItem);
+
         try {
-            const response = await fetch('/api/cart', {
+            const response = await fetch('/api/items/choice/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -88,7 +94,10 @@ const MenuPopup: React.FC<MenuPopupProps> = ({ item, onClose, onAddToCart }) => 
                 throw new Error('Failed to add item to cart');
             }
 
-            onAddToCart(item, size, shot, quantity);
+            const responseData = await response.json();
+            console.log('응답 데이터:', responseData);
+
+            await onAddToCart(item, size, shot, quantity);
             onClose();
         } catch (error) {
             console.error('Error adding to cart:', error);
