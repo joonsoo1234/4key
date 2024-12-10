@@ -26,9 +26,6 @@ public class MyCart {
     @Column(name = "quantity", nullable = false)
     private int quantity = 1;  // 수량
 
-//    @Column(name = "total_price", nullable = false)
-//    private double totalPrice;  // 총 가격
-
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;  // 아이템 엔티티와 연결
