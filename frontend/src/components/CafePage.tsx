@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import '../styles/CafePage.css';
+import MenuPopup from './MenuPopup';
+import '../styles/MenuPopup.css';
 
 // 메뉴 아이템 인터페이스 수정
 interface CafeItem {
@@ -21,6 +23,7 @@ interface MenuCategories {
 const CafePage = () => {
     const [selectedCategory, setSelectedCategory] = useState('시즌메뉴');
     const [menuItems, setMenuItems] = useState<CafeItem[]>([]);
+    const [popupItem, setPopupItem] = useState<CafeItem | null>(null);
 
     const categoryMapping: { [key: string]: string } = {
         '시즌메뉴': '시즌메뉴',
@@ -72,6 +75,19 @@ const CafePage = () => {
         ],
     };
 
+    const handleItemClick = (item: CafeItem) => {
+        setPopupItem(item);
+    };
+
+    const handleClosePopup = () => {
+        setPopupItem(null);
+    };
+
+    const handleAddToCart = (item: CafeItem, size: string, shot: number, quantity: number) => {
+        // 장바구니에 추가하는 로직 구현
+        console.log('장바구니에 추가:', item, size, shot, quantity);
+    };
+
     return (
         <div className="main-page cafe-page">
             <main className="main-content">
@@ -91,7 +107,7 @@ const CafePage = () => {
                     <h2>{selectedCategory}</h2>
                     <div className="menu-grid">
                         {menuItems.map((item) => (
-                            <div key={item.item_id} className="menu-item">
+                            <div key={item.item_id} className="menu-item" onClick={() => handleItemClick(item)}>
                                 <div className="menu-image">
                                     <img src={item.itemImage} alt={item.name} />
                                 </div>
@@ -119,6 +135,16 @@ const CafePage = () => {
                     <button className="checkout-button">결제하기</button>
                 </footer>
             </main>
+            {popupItem && (
+                <>
+                    <div className="menu-popup-overlay" onClick={handleClosePopup}></div>
+                    <MenuPopup
+                        item={popupItem}
+                        onClose={handleClosePopup}
+                        onAddToCart={handleAddToCart}
+                    />
+                </>
+            )}
         </div>
     );
 };
