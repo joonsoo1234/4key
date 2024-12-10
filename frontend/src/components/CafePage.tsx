@@ -184,7 +184,9 @@ const CafePage = () => {
                         <ul>
                             {cartItems.map((cartItem) => (
                                 <li key={cartItem.id}>
-                                    {cartItem.item.name} x {cartItem.quantity} ({cartItem.size}, 샷 {cartItem.shot})
+                                    {cartItem.item.name} x {cartItem.quantity}
+                                    {cartItem.size !== 'N' && ` (${cartItem.size})`}
+                                    {cartItem.shot > 0 && `, 샷 ${cartItem.shot}`}
                                 </li>
                             ))}
                         </ul>
