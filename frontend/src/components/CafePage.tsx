@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import '../styles/CafePage.css';
-import { useState } from 'react';
 
-// 메뉴 아이템 인터페이스 정의
+// 메뉴 아이템 인터페이스 수정
 interface MenuItem {
+    item_id: number;
     name: string;
     price: number;
+    image_url: string;
+    type: string;
 }
 
 // 메뉴 카테고리 인터페이스 정의
@@ -18,6 +20,36 @@ interface MenuCategories {
 // 메인 페이지 컴포넌트
 const CafePage = () => {
     const [selectedCategory, setSelectedCategory] = useState('시즌메뉴');
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
+    const categoryMapping: { [key: string]: string } = {
+        '시즌메뉴': 'SEASON',
+        '커피(HOT)': 'HOT',
+        '커피(ICE)': 'ICE'
+    };
+
+    // API에서 메뉴 데이터 가져오기
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            try {
+                const mappedCategory = categoryMapping[selectedCategory];
+                const response = await fetch(`/api/items/${mappedCategory}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('받아온 데이터:', data); // 디버깅용
+                if (data.data) {
+                    setMenuItems(data.data);
+                }
+            } catch (error) {
+                console.error('메뉴 데이터 로딩 실패:', error);
+                console.error('에러 상세:', error.message); // 더 자세한 에러 정보
+            }
+        };
+
+        fetchMenuItems();
+    }, [selectedCategory]);
 
     const menuCategories: MenuCategories = {
         시즌메뉴: [
@@ -58,9 +90,11 @@ const CafePage = () => {
                 <section className="menu-list">
                     <h2>{selectedCategory}</h2>
                     <div className="menu-grid">
-                        {menuCategories[selectedCategory].map((item) => (
-                            <div key={item.name} className="menu-item">
-                                <div className="menu-image"></div>
+                        {menuItems.map((item) => (
+                            <div key={item.item_id} className="menu-item">
+                                <div className="menu-image">
+                                    <img src={item.image_url} alt={item.name} />
+                                </div>
                                 <div className="menu-info">
                                     <h3>{item.name}</h3>
                                     <p>₩{item.price.toLocaleString()}</p>
