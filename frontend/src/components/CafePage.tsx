@@ -118,7 +118,7 @@ const CafePage = () => {
     const handleClearCart = async () => {
         // 확인 창 표시
         const isConfirmed = window.confirm('장바구니를 모두 비우시겠습니까?');
-        
+
         if (!isConfirmed) {
             return; // 사용자가 취소를 선택한 경우
         }
@@ -127,14 +127,45 @@ const CafePage = () => {
             const response = await fetch('/api/items/clear', {
                 method: 'POST',
             });
-            
+
             if (!response.ok) {
                 throw new Error('장바구니 비우기 실패');
             }
-            
+
             setCartItems([]);
         } catch (error) {
             console.error('장바구니 비우기 실패:', error);
+        }
+    };
+
+    // 수량 변경 함수 추가
+    const handleQuantityChange = async (cartItem: MyCart, change: number) => {
+        try {
+            const newQuantity = cartItem.quantity + change;
+            if (newQuantity <= 0) {
+                // 수량이 0이하면 항목 삭제
+                const response = await fetch(`/api/items/mycart/${cartItem.id}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) throw new Error('항목 삭제 실패');
+            } else {
+                // 수량 업데이트
+                const response = await fetch(`/api/items/mycart/${cartItem.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ quantity: newQuantity })
+                });
+                if (!response.ok) throw new Error('수량 업데이트 실패');
+            }
+
+            // 장바구니 데이터 새로고침
+            const cartResponse = await fetch('/api/items/mycart');
+            const cartData = await cartResponse.json();
+            setCartItems(cartData.data);
+        } catch (error) {
+            console.error('수량 변경 실패:', error);
         }
     };
 
@@ -174,19 +205,36 @@ const CafePage = () => {
                     <div className="basket">
                         <div className="basket-header">
                             <h2>주문 내역</h2>
-                            <button 
-                                className="clear-cart-btn" 
+                            <button
+                                className="clear-cart-btn"
                                 onClick={handleClearCart}
                             >
                                 장바구니 비우기
                             </button>
                         </div>
                         <ul>
-                            {cartItems.map((cartItem) => (
-                                <li key={cartItem.id}>
-                                    {cartItem.item.name} x {cartItem.quantity}
-                                    {cartItem.size !== 'N' && ` (${cartItem.size})`}
-                                    {cartItem.shot > 0 && `, 샷 ${cartItem.shot}`}
+                            {cartItems.map((cartItem) => 
+                                <li key={cartItem.id} className="cart-item">
+                                    <div className="cart-item-info">
+                                        {cartItem.item.name} x {cartItem.quantity}
+                                        {cartItem.size !== 'N' && ` (${cartItem.size})`}
+                                        {cartItem.shot > 0 && `, 샷 ${cartItem.shot}`}
+                                    </div>
+                                    <div className="cart-item-controls">
+                                        <button
+                                            className="quantity-btn"
+                                            onClick={() => handleQuantityChange(cartItem, -1)}
+                                        >
+                                            -
+                                        </button>
+                                        <span className="quantity">{cartItem.quantity}</span>
+                                        <button
+                                            className="quantity-btn"
+                                            onClick={() => handleQuantityChange(cartItem, 1)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
                                 </li>
                             ))}
                         </ul>

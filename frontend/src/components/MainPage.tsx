@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/MainPage.css';
 
 const MainPage = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.body.classList.add('main-page-body');
+
+        return () => {
+            document.body.classList.remove('main-page-body');
+        };
+    }, []);
 
     return (
         <div className="selection-page">
