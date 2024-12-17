@@ -2,10 +2,12 @@ package com.example.backend.controller;
 
 import com.example.backend.entity.Item;
 import com.example.backend.entity.MyCart;
+import com.example.backend.entity.UpdateMyCart;
 import com.example.backend.service.ItemService;
 import com.example.backend.service.MyCartService;
 import com.example.backend.utils.ResponseHandler;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -97,6 +99,17 @@ public class ItemController {
                     null
             );
         }
+    }
+
+    // 장바구니 수량 수정
+    @PatchMapping("/update")
+    public ResponseEntity<Object> updateMyCart(@RequestBody UpdateMyCart request) {
+        MyCart CartUpDate = myCartService.updateCart(request);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                CartUpDate
+        );
     }
 
 }
