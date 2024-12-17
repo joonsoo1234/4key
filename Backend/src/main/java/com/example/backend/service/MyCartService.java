@@ -77,6 +77,7 @@ public class MyCartService {
         }
     }
 
+    // 장바구니 수량 수정 서비스
     @Transactional
     public MyCart updateCart(UpdateMyCart cart) {
         logger.info(cart.toString());
