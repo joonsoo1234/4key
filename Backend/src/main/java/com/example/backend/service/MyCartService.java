@@ -3,11 +3,13 @@ package com.example.backend.service;
 
 import com.example.backend.entity.Item;
 import com.example.backend.entity.MyCart;
+import com.example.backend.entity.UpdateMyCart;
 import com.example.backend.repository.ItemRepository;
 import com.example.backend.repository.MyCartRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,5 +77,24 @@ public class MyCartService {
         }
     }
 
+    @Transactional
+    public MyCart updateCart(UpdateMyCart cart) {
+        logger.info(cart.toString());
+
+        MyCart newcart = myCartRepository.findOneById(cart.getId());
+
+        if (cart.getQuantity()>0) {
+            newcart.setQuantity(newcart.getQuantity()+1);
+        } else if (cart.getQuantity()<0) {
+            newcart.setQuantity(newcart.getQuantity()-1);
+        }
+        if (newcart.getQuantity()==0) {
+            myCartRepository.deleteById(cart.getId());
+            return null;
+        }
+
+        // Mydrink 테이블에 저장
+        return myCartRepository.save(newcart);
+    }
 
 }
