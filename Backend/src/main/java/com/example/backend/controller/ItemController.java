@@ -101,6 +101,7 @@ public class ItemController {
         }
     }
 
+    // 장바구니 수량 수정
     @PatchMapping("/update")
     public ResponseEntity<Object> updateMyCart(@RequestBody UpdateMyCart request) {
         MyCart CartUpDate = myCartService.updateCart(request);
