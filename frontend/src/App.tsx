@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './components/MainPage';
 import CafePage from './components/CafePage';
@@ -8,9 +7,6 @@ import Footer from './components/Footer';
 import CinemaPage from './components/Cinema/CinemaPage';
 import MovieListPage from './components/Cinema/MovieListPage';
 import SeatSelectionPage from './components/Cinema/SeatSelectionPage';
-import PaymentPage from './components/Cinema/PaymentPage';
-import BookingHistoryPage from './components/Cinema/BookingHistoryPage';
-
 
 function App() {
     return (
@@ -25,8 +21,6 @@ function App() {
                         <Route path="/cinema" element={<CinemaPage />} />
                         <Route path="/movies" element={<MovieListPage />} />
                         <Route path="/seat-selection" element={<SeatSelectionPage />} />
-                        <Route path="/payment" element={<PaymentPage />} />
-                        <Route path="/booking-history" element={<BookingHistoryPage />} />
                     </Routes>
                 </main>
                 <Footer />

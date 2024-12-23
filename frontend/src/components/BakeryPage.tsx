@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/common.css';
 import '../styles/BakeryPage.css';
 
@@ -39,23 +39,21 @@ const BakeryPage = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log('받아온 데이터:', data); // 디버깅용
+                console.log('받아온 데이터:', data);
                 if (data.data) {
                     setMenuItems(data.data);
                 }
             } catch (error) {
-                console.error('메뉴 데이터 로딩 실패:', error);
-                console.error('에러 상세:', error.message); // 더 자세한 에러 정보
+                if (error instanceof Error) {
+                    console.error('메뉴 데이터 로딩 실패:', error);
+                    console.error('에러 상세:', error.message);
+                }
             }
         };
-
+    
         fetchMenuItems();
     }, [selectedCategory]);
-
-    useEffect(() => {
-        fetchCartItems();
-    }, []);
-
+    
     const fetchCartItems = async () => {
         try {
             const response = await fetch('/api/items/mycart');
@@ -65,7 +63,9 @@ const BakeryPage = () => {
             const data = await response.json();
             setCartItems(data.data);
         } catch (error) {
-            console.error('장바구니 데이터 로딩 실패:', error);
+            if (error instanceof Error) {
+                console.error('장바구니 데이터 로딩 실패:', error);
+            }
         }
     };
 
@@ -92,20 +92,24 @@ const BakeryPage = () => {
                 throw new Error('Failed to add item to cart');
             }
 
-            // 장바구니 데이터 다시 불러오기
             await fetchCartItems();
+            // 장바구니 담기 성공 메시지 추가
+            alert(`${item.name}이(가) 장바구니에 담겼습니다.`);
         } catch (error) {
-            console.error('Error adding to cart:', error);
+            if (error instanceof Error) {
+                console.error('Error adding to cart:', error);
+                alert('장바구니에 담기 실패했습니다.');
+            }
         }
     };
-
+    
     const handleClearCart = async () => {
         const isConfirmed = window.confirm('장바구니를 모두 비우시겠습니까?');
         
         if (!isConfirmed) {
             return;
         }
-
+    
         try {
             const response = await fetch('/api/items/clear', {
                 method: 'POST',
@@ -117,7 +121,9 @@ const BakeryPage = () => {
             
             setCartItems([]);
         } catch (error) {
-            console.error('장바구니 비우기 실패:', error);
+            if (error instanceof Error) {
+                console.error('장바구니 비우기 실패:', error);
+            }
         }
     };
 
