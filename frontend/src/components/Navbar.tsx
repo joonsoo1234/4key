@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/layout.css';
 import { AiFillHome } from 'react-icons/ai';
