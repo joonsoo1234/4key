@@ -53,6 +53,6 @@
     color: #777;
 }
 
-/* 각 버튼의 배경색 적용 */
-.ticket-purchase { background-color: #f8e3dd; }
+.ticket-purchase { background-color: #f8e3dd;
+    border: 4px dashed red;}
 .ticket-print { background-color: #e3e3ff; }
