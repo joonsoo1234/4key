@@ -93,8 +93,6 @@ const BakeryPage = () => {
             }
 
             await fetchCartItems();
-            // 장바구니 담기 성공 메시지 추가
-            alert(`${item.name}이(가) 장바구니에 담겼습니다.`);
         } catch (error) {
             if (error instanceof Error) {
                 console.error('Error adding to cart:', error);
@@ -267,7 +265,7 @@ const BakeryPage = () => {
                         <span>총 주문금액</span>
                         <span className="total-price">₩{calculateTotalPrice().toLocaleString()}</span>
                     </div>
-                    <button className="checkout-button">결제하기</button>
+                    <button className="checkout-button" onClick={handlePay}>결제하기</button>
                 </footer>
             </main>
         </div>
