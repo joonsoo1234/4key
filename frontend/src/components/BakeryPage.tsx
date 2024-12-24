@@ -50,10 +50,10 @@ const BakeryPage = () => {
                 }
             }
         };
-    
+
         fetchMenuItems();
     }, [selectedCategory]);
-    
+
     const fetchCartItems = async () => {
         try {
             const response = await fetch('/api/items/mycart');
@@ -102,23 +102,23 @@ const BakeryPage = () => {
             }
         }
     };
-    
+
     const handleClearCart = async () => {
         const isConfirmed = window.confirm('장바구니를 모두 비우시겠습니까?');
-        
+
         if (!isConfirmed) {
             return;
         }
-    
+
         try {
             const response = await fetch('/api/items/clear', {
                 method: 'POST',
             });
-            
+
             if (!response.ok) {
                 throw new Error('장바구니 비우기 실패');
             }
-            
+
             setCartItems([]);
         } catch (error) {
             if (error instanceof Error) {
@@ -157,7 +157,6 @@ const BakeryPage = () => {
         }
     };
 
-
     const calculateTotalPrice = () => {
         return cartItems.reduce((total, item) => {
             const basePrice = item.item.price;
@@ -165,6 +164,31 @@ const BakeryPage = () => {
             const sizePrice = item.size === 'M' ? 700 : item.size === 'L' ? 1400 : 0;
             return total + ((basePrice + shotPrice + sizePrice) * item.quantity);
         }, 0);
+    };
+
+    const handleQuantityChange = async (cartItem: MyCart, change: number) => {
+        try {
+            const response = await fetch('/api/items/update', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: cartItem.id,
+                    quantity: change
+                })
+            });
+
+            if (!response.ok) throw new Error('수량 업데이트 실패');
+
+            const cartResponse = await fetch('/api/items/mycart');
+            const cartData = await cartResponse.json();
+            setCartItems(cartData.data);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error('수량 변경 실패:', error);
+            }
+        }
     };
 
     return (
@@ -186,8 +210,8 @@ const BakeryPage = () => {
                     <h2>{selectedCategory}</h2>
                     <div className="menu-grid">
                         {menuItems.map((item) => (
-                            <div 
-                                key={item.id} 
+                            <div
+                                key={item.id}
                                 className="menu-item"
                                 onClick={() => handleAddToCart(item)}
                             >
@@ -207,8 +231,8 @@ const BakeryPage = () => {
                     <div className="basket">
                         <div className="basket-header">
                             <h2>주문 내역</h2>
-                            <button 
-                                className="clear-cart-btn" 
+                            <button
+                                className="clear-cart-btn"
                                 onClick={handleClearCart}
                             >
                                 장바구니 비우기
@@ -216,8 +240,25 @@ const BakeryPage = () => {
                         </div>
                         <ul>
                             {cartItems.map((cartItem) => (
-                                <li key={cartItem.id}>
-                                    {cartItem.item.name} x {cartItem.quantity}
+                                <li key={cartItem.id} className="cart-item">
+                                    <div className="cart-item-info">
+                                        {cartItem.item.name} x {cartItem.quantity}
+                                    </div>
+                                    <div className="cart-item-controls">
+                                        <button
+                                            className="quantity-btn"
+                                            onClick={() => handleQuantityChange(cartItem, -1)}
+                                        >
+                                            -
+                                        </button>
+                                        <span className="quantity">{cartItem.quantity}</span>
+                                        <button
+                                            className="quantity-btn"
+                                            onClick={() => handleQuantityChange(cartItem, 1)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
@@ -226,7 +267,7 @@ const BakeryPage = () => {
                         <span>총 주문금액</span>
                         <span className="total-price">₩{calculateTotalPrice().toLocaleString()}</span>
                     </div>
-                    <button className="checkout-button" onClick={handlePay}>결제하기</button>
+                    <button className="checkout-button">결제하기</button>
                 </footer>
             </main>
         </div>

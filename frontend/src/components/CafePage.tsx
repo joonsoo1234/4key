@@ -170,27 +170,20 @@ const CafePage = () => {
         }
     };
 
-    // 수량 변경 함수 추가
     const handleQuantityChange = async (cartItem: MyCart, change: number) => {
         try {
-            const newQuantity = cartItem.quantity + change;
-            if (newQuantity <= 0) {
-                // 수량이 0이하면 항목 삭제
-                const response = await fetch(`/api/items/mycart/${cartItem.id}`, {
-                    method: 'DELETE'
-                });
-                if (!response.ok) throw new Error('항목 삭제 실패');
-            } else {
-                // 수량 업데이트
-                const response = await fetch(`/api/items/mycart/${cartItem.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ quantity: newQuantity })
-                });
-                if (!response.ok) throw new Error('수량 업데이트 실패');
-            }
+            const response = await fetch('/api/items/update', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: cartItem.id,
+                    quantity: change  // 변경: 증가/감소를 나타내는 값(-1 또는 1)을 직접 전송
+                })
+            });
+
+            if (!response.ok) throw new Error('수량 업데이트 실패');
 
             // 장바구니 데이터 새로고침
             const cartResponse = await fetch('/api/items/mycart');
