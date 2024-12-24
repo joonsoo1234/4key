@@ -127,6 +127,30 @@ const BakeryPage = () => {
         }
     };
 
+    // 결제하기
+    const handlePay = async () => {
+        // 확인 창 표시
+        const isConfirmed = window.confirm('주문을 하시겠습니까?');
+
+        if (!isConfirmed) {
+            return; // 사용자가 취소를 선택한 경우
+        }
+
+        try {
+            const response = await fetch('/api/items/clear', {
+                method: 'POST',
+            });
+
+            if (!response.ok) {
+                throw new Error('실패');
+            }
+
+            setCartItems([]);
+        } catch (error) {
+            console.error('결제 실패:', error);
+        }
+    };
+
     const calculateTotalPrice = () => {
         return cartItems.reduce((total, item) => {
             const basePrice = item.item.price;
@@ -195,7 +219,7 @@ const BakeryPage = () => {
                         <span>총 주문금액</span>
                         <span className="total-price">₩{calculateTotalPrice().toLocaleString()}</span>
                     </div>
-                    <button className="checkout-button">결제하기</button>
+                    <button className="checkout-button" onClick={handlePay}>결제하기</button>
                 </footer>
             </main>
         </div>
