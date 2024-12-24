@@ -127,7 +127,6 @@ const BakeryPage = () => {
         }
     };
 
-    // 결제하기
     const handlePay = async () => {
         // 확인 창 표시
         const isConfirmed = window.confirm('주문을 하시겠습니까?');
@@ -145,11 +144,19 @@ const BakeryPage = () => {
                 throw new Error('실패');
             }
 
+            // 결제 성공 시 알림창 표시
+            window.alert('주문이 완료되었습니다.');
+
+            // 메인 화면으로 이동
+            window.location.href = '/';
+
+            // 장바구니 비우기
             setCartItems([]);
         } catch (error) {
             console.error('결제 실패:', error);
         }
     };
+
 
     const calculateTotalPrice = () => {
         return cartItems.reduce((total, item) => {
